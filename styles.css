@@ -1,0 +1,908 @@
+/* ===== Reset & Variables ===== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg: #0a0a0f;
+  --bg-soft: #12121a;
+  --text: #e8e8ed;
+  --text-muted: #8888a0;
+  --accent: #00d4aa;
+  --accent-dim: rgba(0, 212, 170, 0.15);
+  --border: rgba(255, 255, 255, 0.06);
+  --font-sans: 'Syne', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+  line-height: 1.5;
+}
+
+/* Noise overlay */
+.noise {
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1000;
+}
+
+/* ===== Layout ===== */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* ===== Header ===== */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 2rem;
+  z-index: 100;
+  mix-blend-mode: difference;
+}
+
+.header .logo,
+.header .nav a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 0.02em;
+}
+
+.header .nav {
+  display: flex;
+  gap: 2rem;
+}
+
+.header .nav a:hover {
+  color: var(--accent);
+}
+
+.menu-btn {
+  display: none;
+  flex-direction: column;
+  gap: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.menu-btn span {
+  width: 24px;
+  height: 2px;
+  background: #fff;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .header .nav {
+    display: none;
+  }
+  .menu-btn {
+    display: flex;
+  }
+}
+
+/* ===== Hero ===== */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 6rem 2rem 4rem;
+  position: relative;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.hero-gradient {
+  position: absolute;
+  width: 120%;
+  height: 80%;
+  top: 10%;
+  left: -10%;
+  background: radial-gradient(ellipse at 50% 50%, var(--accent-dim) 0%, transparent 60%);
+  filter: blur(60px);
+  will-change: transform, opacity;
+}
+
+.hero-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black 20%, transparent 70%);
+}
+
+.hero-name {
+  font-size: clamp(3rem, 12vw, 7rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.2;
+  position: relative;
+  z-index: 1;
+  text-align: center;
+}
+
+.hero-name .char {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+}
+
+.hero-name .char-inner {
+  display: inline-block;
+  will-change: transform;
+}
+
+.hero-name .char-space {
+  display: inline-block;
+  width: 0.25em;
+}
+
+.hero-subtitle {
+  font-size: clamp(0.9rem, 2vw, 1.1rem);
+  font-weight: 500;
+  color: var(--text-muted);
+  letter-spacing: 0.15em;
+  text-align: center;
+  margin: 0.75rem 0 0;
+  position: relative;
+  z-index: 1;
+}
+
+/* ===== Sections common ===== */
+section {
+  padding: 6rem 0;
+  position: relative;
+}
+
+/* 이미지 없는 섹션: 화면 높이에 맞춰 해당 섹션만 보이게 */
+section:not(.military):not(.hardwork):not(.study) {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.section-num {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  display: block;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.section-title {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+/* ===== Military (두 번째 섹션) ===== */
+.military {
+  background: var(--bg-soft);
+  padding: 6rem 0;
+}
+
+.military-title {
+  font-size: clamp(1.75rem, 4vw, 2.75rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin-bottom: 3rem;
+  text-align: center;
+}
+
+.military-title-inner {
+  display: inline-block;
+}
+
+.military-title .military-char {
+  white-space: pre;
+}
+
+.military-img-wrap {
+  position: relative;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.military-img-frame {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+.military-img-frame::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.military-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  vertical-align: top;
+}
+
+/* ===== Hardwork (세 번째 섹션 - 전역 후 노가다) ===== */
+.hardwork {
+  padding: 6rem 0;
+}
+
+.hardwork-title {
+  font-size: clamp(1.75rem, 4vw, 2.75rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin-bottom: 3rem;
+  text-align: center;
+}
+
+.hardwork-title-inner {
+  display: inline-block;
+}
+
+.hardwork-title .hardwork-char {
+  white-space: pre;
+}
+
+.hardwork-img-wrap {
+  position: relative;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.hardwork-img-frame {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+.hardwork-img-frame::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.hardwork-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  vertical-align: top;
+}
+
+/* ===== Study (네 번째 섹션 - 수능공부) ===== */
+.study {
+  background: var(--bg-soft);
+  padding: 6rem 0;
+}
+
+.study-title {
+  font-size: clamp(1.75rem, 4vw, 2.75rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin-bottom: 3rem;
+  text-align: center;
+}
+
+.study-title-inner {
+  display: inline-block;
+}
+
+.study-title .study-char {
+  white-space: pre;
+}
+
+.study-img-wrap {
+  position: relative;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.study-img-frame {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+.study-img-frame::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.study-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  vertical-align: top;
+}
+
+/* ===== Tech Edu (다섯 번째 섹션 - 기술교육) ===== */
+.tech-edu {
+  padding: 6rem 0;
+  overflow: hidden;
+}
+
+.tech-edu-layout {
+  position: relative;
+  min-height: 420px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tech-edu-center {
+  position: relative;
+  z-index: 2;
+  font-size: clamp(2.5rem, 8vw, 5rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  text-align: center;
+  margin: 0;
+}
+
+.tech-edu-orbit {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tech-edu-item {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  font-size: clamp(0.9rem, 1.8vw, 1.1rem);
+  font-weight: 600;
+  color: var(--text-muted);
+  white-space: nowrap;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  background: rgba(10, 10, 15, 0.8);
+  backdrop-filter: blur(8px);
+}
+
+.tech-edu-item:nth-child(1) { transform: translate(-50%, -50%) rotate(0deg) translateY(-160px) rotate(0deg); }
+.tech-edu-item:nth-child(2) { transform: translate(-50%, -50%) rotate(72deg) translateY(-160px) rotate(-72deg); }
+.tech-edu-item:nth-child(3) { transform: translate(-50%, -50%) rotate(144deg) translateY(-160px) rotate(-144deg); }
+.tech-edu-item:nth-child(4) { transform: translate(-50%, -50%) rotate(216deg) translateY(-160px) rotate(-216deg); }
+.tech-edu-item:nth-child(5) { transform: translate(-50%, -50%) rotate(288deg) translateY(-160px) rotate(-288deg); }
+
+@media (max-width: 768px) {
+  .tech-edu-layout { min-height: 380px; }
+  .tech-edu-item:nth-child(1) { transform: translate(-50%, -50%) rotate(0deg) translateY(-130px) rotate(0deg); }
+  .tech-edu-item:nth-child(2) { transform: translate(-50%, -50%) rotate(72deg) translateY(-130px) rotate(-72deg); }
+  .tech-edu-item:nth-child(3) { transform: translate(-50%, -50%) rotate(144deg) translateY(-130px) rotate(-144deg); }
+  .tech-edu-item:nth-child(4) { transform: translate(-50%, -50%) rotate(216deg) translateY(-130px) rotate(-216deg); }
+  .tech-edu-item:nth-child(5) { transform: translate(-50%, -50%) rotate(288deg) translateY(-130px) rotate(-288deg); }
+}
+
+/* ===== 줌 시퀀스: 기술교육 → 통신기술 → C언어 → 컴퓨터교육 ===== */
+.zoom-sequence-wrap {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.zoom-sequence {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.zoom-step {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+  will-change: transform, opacity;
+}
+
+.zoom-step--2,
+.zoom-step--3 {
+  background: var(--bg-soft);
+}
+
+.zoom-step--4 {
+  background: var(--bg-soft);
+}
+
+.zoom-step--1 .container {
+  padding: 2rem 1.5rem;
+}
+
+.tech-zoom-wrap {
+  will-change: transform;
+  width: 100%;
+}
+
+.zoom-step-title {
+  font-size: clamp(2rem, 8vw, 4.5rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  margin: 0;
+  color: var(--text);
+}
+
+/* ===== 6번 섹션: 아  프로그래밍하고 싶다! ===== */
+.section-quote {
+  padding: 6rem 2rem;
+  background: var(--bg-soft);
+}
+
+.section-quote .container {
+  text-align: center;
+}
+
+.quote-text {
+  font-size: clamp(2.5rem, 10vw, 5.5rem);
+  font-weight: 800;
+  color: var(--text);
+  margin: 0;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+}
+
+/* ===== 7번 섹션: 첫번째 회사 ===== */
+.section-first-job {
+  padding: 6rem 0;
+}
+
+.section-first-job .container,
+.section-second-job .container,
+.section-third-job .container,
+.section-school .container {
+  text-align: center;
+}
+
+.first-job-tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.first-job-tags span,
+.first-job-tags .first-job-tag-link {
+  padding: 0.6rem 1.2rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+  text-decoration: none;
+  display: inline-block;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.first-job-tags .first-job-tag-link:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.first-job-tags span:first-child {
+  color: var(--accent);
+}
+
+.first-job-logos {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 2.5rem;
+}
+
+.first-job-logo-link {
+  display: block;
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.first-job-logo-link:hover {
+  opacity: 0.85;
+  transform: scale(1.03);
+}
+
+.first-job-logo-img {
+  display: block;
+  height: 72px;
+  width: auto;
+  max-width: 240px;
+  object-fit: contain;
+}
+
+/* ===== 8번 섹션: 두번째 회사 ===== */
+.section-second-job {
+  padding: 6rem 0;
+}
+
+.second-job-subtitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--accent);
+  margin: 0 0 1rem;
+}
+
+.second-job-tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.second-job-tags span,
+.second-job-tags .second-job-tag-link {
+  padding: 0.6rem 1.2rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+  text-decoration: none;
+  display: inline-block;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.second-job-tags .second-job-tag-link:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.second-job-logos {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 2.5rem;
+}
+
+.second-job-logo-img {
+  display: block;
+  height: 66px;
+  width: auto;
+  max-width: 210px;
+  object-fit: contain;
+}
+
+.second-job-video-wrap {
+  margin-top: 2.5rem;
+  margin-left: auto;
+  margin-right: auto;
+  width: 70vw;
+  max-width: 900px;
+}
+
+.second-job-video-label {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin: 0 0 0.5rem;
+}
+
+.second-job-video-inner {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%; /* 16:9 */
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--bg);
+}
+
+.second-job-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* ===== 9번 섹션: 세번째 회사 ===== */
+.section-third-job {
+  padding: 6rem 0;
+}
+
+.third-job-subtitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--accent);
+  margin: 0 0 1rem;
+}
+
+.third-job-tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.third-job-tags span {
+  padding: 0.6rem 1.2rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* ===== 10번 섹션: 선일빅데이터고등학교 ===== */
+.section-school {
+  padding: 6rem 0;
+}
+
+.school-logo-wrap {
+  margin: 1.5rem auto;
+}
+
+.school-logo-img {
+  display: block;
+  width: 160px;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin: 0 auto;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.school-desc {
+  max-width: 480px;
+  margin-top: 1rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.school-subject {
+  font-size: 1.1rem;
+  color: var(--text);
+  margin-bottom: 0.75rem;
+  line-height: 1.6;
+}
+
+.school-subject:last-child {
+  margin-bottom: 0;
+}
+
+.school-subject strong {
+  color: var(--text);
+  font-weight: 700;
+}
+
+.school-subject span {
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+/* ===== 11번 섹션: 창의아이디어 대회 ===== */
+.section-idea .container {
+  text-align: center;
+}
+
+.section-idea {
+  padding: 6rem 0;
+}
+
+.idea-desc {
+  font-size: 1.15rem;
+  color: var(--text-muted);
+  margin: 0 0 1.5rem;
+}
+
+.idea-slider-wrap {
+  position: relative;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.idea-slider-track {
+  position: relative;
+  width: 100%;
+  padding-bottom: 75%;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--bg-soft);
+}
+
+.idea-slide {
+  border-radius: 12px;
+}
+
+.idea-slider-dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.idea-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: none;
+  background: var(--border);
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.idea-dot:hover {
+  background: var(--text-muted);
+}
+
+.idea-dot.is-active {
+  background: var(--accent);
+  transform: scale(1.2);
+}
+
+/* ===== 12번 섹션: 데이터 안심구역 경진대회 ===== */
+.section-data .container {
+  text-align: center;
+}
+
+.section-data {
+  padding: 6rem 0;
+}
+
+.data-desc {
+  font-size: 1.15rem;
+  color: var(--text-muted);
+  margin: 0 0 1.5rem;
+}
+
+.data-slider-wrap {
+  position: relative;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.data-slider-track {
+  position: relative;
+  width: 100%;
+  padding-bottom: 75%;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--bg-soft);
+}
+
+.data-slide {
+  border-radius: 12px;
+}
+
+.data-slider-dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.data-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: none;
+  background: var(--border);
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.data-dot:hover {
+  background: var(--text-muted);
+}
+
+.data-dot.is-active {
+  background: var(--accent);
+  transform: scale(1.2);
+}
+
+/* ===== 마지막 섹션: 범어중학교 ===== */
+.section-middle-school {
+  padding: 6rem 0;
+}
+
+.section-middle-school .container {
+  text-align: center;
+}
+
+/* ===== Contact (다른 곳에서 사용 시) ===== */
+.contact-text {
+  font-size: 1.2rem;
+  color: var(--text-muted);
+  margin-bottom: 2rem;
+  max-width: 480px;
+}
+
+.contact-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.contact-links a {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text);
+  text-decoration: none;
+  position: relative;
+}
+
+.contact-links a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0;
+  height: 2px;
+  background: var(--accent);
+  transition: width 0.3s;
+}
+
+.contact-links a:hover::after {
+  width: 100%;
+}
+
+.contact-links a:hover {
+  color: var(--accent);
+}
+
+/* ===== Footer ===== */
+.footer {
+  padding: 2rem;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
