@@ -742,13 +742,16 @@ section:not(.military):not(.hardwork):not(.study) {
   margin: 0 0 1.5rem;
 }
 
-.idea-slider-wrap {
+/* 11·12번 슬라이더 공통 크기 */
+.idea-slider-wrap,
+.data-slider-wrap {
   position: relative;
   max-width: 960px;
   margin: 0 auto;
 }
 
-.idea-slider-track {
+.idea-slider-track,
+.data-slider-track {
   position: relative;
   width: 100%;
   padding-bottom: 75%;
@@ -757,7 +760,8 @@ section:not(.military):not(.hardwork):not(.study) {
   background: var(--bg-soft);
 }
 
-.idea-slide {
+.idea-slide,
+.data-slide {
   border-radius: 12px;
 }
 
@@ -801,25 +805,6 @@ section:not(.military):not(.hardwork):not(.study) {
   font-size: 1.15rem;
   color: var(--text-muted);
   margin: 0 0 1.5rem;
-}
-
-.data-slider-wrap {
-  position: relative;
-  max-width: 960px;
-  margin: 0 auto;
-}
-
-.data-slider-track {
-  position: relative;
-  width: 100%;
-  padding-bottom: 75%;
-  border-radius: 12px;
-  overflow: hidden;
-  background: var(--bg-soft);
-}
-
-.data-slide {
-  border-radius: 12px;
 }
 
 .data-slider-dots {
